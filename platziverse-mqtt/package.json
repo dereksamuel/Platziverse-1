@@ -1,0 +1,24 @@
+{
+  "name": "platziverse-mqtt",
+  "version": "1.0.0",
+  "description": "MQTT server",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "live:dev": "DEBUG=platziverse:* nodemon server.js",
+    "lint": "prettier"
+  },
+  "author": "Derek",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^2.0.4",
+    "prettier": "^2.0.5"
+  },
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "debug": "^4.1.1",
+    "mosca": "^2.8.3",
+    "redis": "^3.0.2"
+  }
+}
