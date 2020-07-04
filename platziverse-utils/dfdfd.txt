@@ -1,0 +1,1 @@
+npx mqtt pub -t ‘agent/message’ -p 8010 -m ‘"agent": { "uuid": "yyy", "name": "Derek", "username": "Pp", "pid": 10 }, "metrics": [{ "type": "memory", "value": "1001101010101011011011011010110"}, { "type": "temp", "value". "50°" }]’

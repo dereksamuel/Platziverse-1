@@ -1,0 +1,16 @@
+{
+  "name": "platziverse-agent",
+  "version": "1.0.0",
+  "description": "A simple IoT platform - Agent",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Derek",
+  "license": "MIT",
+  "dependencies": {
+    "debug": "^4.1.1",
+    "mqtt": "^4.1.0",
+    "uuid": "^8.2.0"
+  }
+}

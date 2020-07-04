@@ -6,7 +6,7 @@ const chalk = require('chalk');
 const debug = require('debug')('platziverse:db');
 
 const prompt = inquirer.createPromptModule();
-const { config } = require('../response/config');
+const { config } = require('../platziverse-utils/config');
 
 async function setup () {
   config.logging = (t) => debug(t);

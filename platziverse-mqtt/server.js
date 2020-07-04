@@ -4,8 +4,8 @@ const { Server } = require('mosca');
 const redis = require('redis');
 const chalk = require('chalk');
 const db = require('platziverse-db');
-const { config } = require('../response/config');
-const parseToReadable = require('../response/utils');
+const { config } = require('../platziverse-utils/config');
+const { transform } = require('../platziverse-utils/config');
 
 config.logging = (t) => debug(t);
 
@@ -24,6 +24,7 @@ const server = new Server(settings);
 const clients = new Map();
 
 let Agent, Metric;
+let queries = [];
 
 server.on('clientConnected', (client) => {
   debug(`CLient connected: ${client.id}`);
@@ -45,7 +46,7 @@ server.on('clientDisconnected', async (client) => {
     clients.delete(client.id);
     server.publish({
       topic: 'agent/disconnected',
-      payload: JSON-stringify({
+      payload: JSON.stringify({
         agent: {
           uuid: agent.uuid,
           name: agent.name,
@@ -61,15 +62,16 @@ server.on('clientDisconnected', async (client) => {
 
 server.on('published', async (packet, client) => {
   debug(`Received: ${packet.topic}`); // tipo de mensaje
+  console.log(packet.topic);
 
   switch (packet.topic) {
     case 'agent/connected':
     case 'agent/disconnected':
       debug(`Payload: ${packet.payload}`);// 
       break;
-    case 'agent/message':
+    case 'agent/message':// no entra en condiciones
       debug(`Payload: ${packet.payload}`);
-      const payload = parseToReadable(packet.payload);
+      const payload = transform(packet.payload);
       if (payload) {
         payload.agent.connected = true;
         let agent;
@@ -100,16 +102,14 @@ server.on('published', async (packet, client) => {
         };
 
         //Store Metrics
-        for (let metric of payload.metrics) {// iterar sobre arreglo como forEach
-          let m;
-          try {
-            m = await Metric.createMetric(agent.uuid, metric);
-          } catch (err) {
-            return handleError(err);
-          };
-
-          debug(`Metric ${m.id} saved on agent ${agent.uuid}`);
-        };
+        payload.metrics.forEach((metric) => {
+          queries.push(Metric.createMetric(agent.uuid, metric));
+          Promise.all(queries).then((values) => {
+            debug('Metrics saved: ', values);
+          }).catch((err) => {
+            handleError(err);
+          });
+        });
       }
       break;
     default:
