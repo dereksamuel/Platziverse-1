@@ -2,7 +2,7 @@
 
 const db = require('../');
 const chalk = require('chalk');
-const { config } = require('../response/config');
+const { config } = require('../../response/config');
 
 async function run () {
   const { Agent, Metric } = await db(config).catch(handleFatalError);
