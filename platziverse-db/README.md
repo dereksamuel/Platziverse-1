@@ -1,4 +1,4 @@
-#Platzi-DB
+# Platzi-DB
 ## Usage
 ``` JS
 	const setupDatabase = require('platziverse-db');
