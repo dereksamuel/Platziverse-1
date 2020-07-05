@@ -11,14 +11,17 @@ api.get('/agents', (req, res) => {
 
 api.get('/agent/:uuid', (req, res) => {
   const { uuid } = req.params;
+  res.json({ uuid });
 });
 
 api.get('/metrics/:uuid', (req, res) => {
   const { uuid } = req.params;
+  res.json({ uuid });
 });
 
 api.get('/metrics/:uuid/:type', (req, res) => {
   const { uuid, type } = req.params;
+  res.json({ uuid, type });
 });
 
 module.exports = api;
