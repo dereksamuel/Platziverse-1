@@ -1,0 +1,18 @@
+{
+  "name": "platziverse-api",
+  "version": "1.0.0",
+  "description": "A simple api with express",
+  "main": "index.js",
+  "dependencies": {
+    "debug": "^4.1.1",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "live:api": "DEBUG=platziverse:* nodemon ./",
+    "live:prod": "NODE_ENV=production node ./"
+  },
+  "author": "Derek",
+  "license": "MIT"
+}
