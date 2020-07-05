@@ -22,3 +22,7 @@ exports.transform = function parsePayload (payload) {
   };
   return payload;
 };
+
+exports.Api = {
+  port: process.env.PORT || 3000
+}
