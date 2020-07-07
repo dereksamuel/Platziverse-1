@@ -5,8 +5,10 @@ const sinon = require('sinon');
 const { createSandbox } = require('sinon');
 const test = require('ava');
 
-const fixtureMetric = require('./fixtures/metric');
-const fixtureAgent = require('./fixtures/agent');
+const { agent, metric } = require('../../platziverse-utils/fixtures');
+
+const agentFixtures = agent;
+const fixtureMetric = metric;
 
 let config = {
   dialect: 'sqlite',
@@ -14,7 +16,7 @@ let config = {
 };
 let db = null;
 
-let single = Object.assign({}, fixtureAgent.singleAgent);
+let single = Object.assign({}, agentFixtures.singleAgent);
 let uuid = single.uuid;
 
 let singleMetric = Object.assign({}, fixtureMetric.singleMetric);
@@ -76,7 +78,7 @@ test.beforeEach(async () => {
 
   //FindOne for Agent
   AgentStub.findOne = createSandbox().stub();
-  AgentStub.findOne.withArgs(uuidArgs).returns(Promise.resolve(fixtureAgent.byUuid(uuid)));
+  AgentStub.findOne.withArgs(uuidArgs).returns(Promise.resolve(agentFixtures.byUuid(uuid)));
 
   //For create Metric
   MetricStub.create = createSandbox().stub();

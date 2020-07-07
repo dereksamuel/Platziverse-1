@@ -4,8 +4,10 @@ const test = require('ava');
 const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 
-const fixtureAgent = require('./fixtures/agent');
+const { agent } = require('../../platziverse-utils/fixtures');
 const { createSandbox } = require('sinon');
+
+const agentFixture = agent;
 
 let config = {
   logging: () => {}
@@ -19,7 +21,7 @@ let AgentStub = null;// TODO: Representa al modelo de agente
 let db = null;
 let sandbox = null;
 let id = 2;
-let single = Object.assign({}, fixtureAgent.singleAgent);
+let single = Object.assign({}, agentFixture.singleAgent);
 let uuid = single.uuid; // aquí está el error toJSON
 let uuidArgs = { where: { uuid } };
 let usernameArgs = { where: { username: 'Testeador2', connected: true } };
@@ -41,11 +43,11 @@ test.beforeEach(async () => {
 
   // Model findOne Stub
   AgentStub.findOne = createSandbox().stub();
-  AgentStub.findOne.withArgs(uuidArgs).returns(Promise.resolve(fixtureAgent.byUuid(uuid)));// posible error
+  AgentStub.findOne.withArgs(uuidArgs).returns(Promise.resolve(agentFixture.byUuid(uuid)));// posible error
 
   // Model find by Id Stub
   AgentStub.findById = createSandbox().stub()// creamos función en modelo
-  AgentStub.findById.withArgs(id).returns(Promise.resolve(fixtureAgent.byId(id)));
+  AgentStub.findById.withArgs(id).returns(Promise.resolve(agentFixture.byId(id)));
 
   // Model update Stub
   AgentStub.update = createSandbox().stub();
@@ -59,9 +61,9 @@ test.beforeEach(async () => {
 
   //findAll Stub
   AgentStub.findAll = createSandbox().stub();
-  AgentStub.findAll.withArgs().returns(Promise.resolve(fixtureAgent.all));
-  AgentStub.findAll.withArgs(connectedArgs).returns(Promise.resolve(fixtureAgent.allConnected));
-  AgentStub.findAll.withArgs(usernameArgs).returns(Promise.resolve(fixtureAgent.allSuesck));
+  AgentStub.findAll.withArgs().returns(Promise.resolve(agentFixture.all));
+  AgentStub.findAll.withArgs(connectedArgs).returns(Promise.resolve(agentFixture.allConnected));
+  AgentStub.findAll.withArgs(usernameArgs).returns(Promise.resolve(agentFixture.allSuesck));
 
   const setupDatabase = proxyquire('../', {
     './models/agent': () => AgentStub,// reemplaza lo que estas rutas traen del index
@@ -95,9 +97,9 @@ test.serial('Agent#findAll', async (t) => {
   t.true(AgentStub.findAll.calledOnce, 'findAll should be called once');
   t.true(AgentStub.findAll.calledWith(), 'findAll should be called with arguments');
 
-  t.is(agents.length, fixtureAgent.all.length, 'agents sholud be equal quatity');
+  t.is(agents.length, agentFixture.all.length, 'agents sholud be equal quatity');
 
-  t.deepEqual(agents, fixtureAgent.all, 'agents should be the same');
+  t.deepEqual(agents, agentFixture.all, 'agents should be the same');
 });
 
 test.serial('Agent#findConnected', async (t) => {
@@ -107,9 +109,9 @@ test.serial('Agent#findConnected', async (t) => {
   t.true(AgentStub.findAll.calledOnce, 'findAll should be called once');
   t.true(AgentStub.findAll.calledWith(connectedArgs), 'findAll should be called with arguments');
 
-  t.is(agents.length, fixtureAgent.allConnected.length, 'agents sholud be equal quatity');
+  t.is(agents.length, agentFixture.allConnected.length, 'agents sholud be equal quatity');
 
-  t.deepEqual(agents, fixtureAgent.allConnected, 'agents should be the same');
+  t.deepEqual(agents, agentFixture.allConnected, 'agents should be the same');
 });
 
 test.serial('Agent#findById', async (t) => {
@@ -119,7 +121,7 @@ test.serial('Agent#findById', async (t) => {
   t.true(AgentStub.findById.calledOnce, 'findById was executed once');
   t.true(AgentStub.findById.calledWith(id), 'findById should be called with specified id');
 
-  t.deepEqual(agent, fixtureAgent.byId(id), 'should be the same');
+  t.deepEqual(agent, agentFixture.byId(id), 'should be the same');
 });
 
 test.serial('Agent#findByUuid', async (t) => {
@@ -129,7 +131,7 @@ test.serial('Agent#findByUuid', async (t) => {
   t.true(AgentStub.findOne.calledOnce, 'findOne was executed once');
   t.true(AgentStub.findOne.calledWith(uuidArgs), 'findOne should be called with specified id');
 
-  t.deepEqual(agent, fixtureAgent.byUuid(uuid), 'should be the same');
+  t.deepEqual(agent, agentFixture.byUuid(uuid), 'should be the same');
 });
 
 test.serial('Agent#findByUsername', async (t) => {
@@ -140,9 +142,9 @@ test.serial('Agent#findByUsername', async (t) => {
   t.true(AgentStub.findAll.calledOnce, 'findAll should be called once');
   t.true(AgentStub.findAll.calledWith(usernameArgs), 'findAll should be called with arguments');
 
-  t.is(agents.length, fixtureAgent.allSuesck.length, 'agents sholud be equal quatity');
+  t.is(agents.length, agentFixture.allSuesck.length, 'agents sholud be equal quatity');
 
-  t.deepEqual(agents, fixtureAgent.allSuesck, 'agents should be the same');
+  t.deepEqual(agents, agentFixture.allSuesck, 'agents should be the same');
 });
 
 test.serial('Agent#createOrUpdate - exists', async (t) => {

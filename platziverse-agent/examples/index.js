@@ -5,6 +5,7 @@ const PlatziverseAgent = require('../');
 const agent = new PlatziverseAgent({
   name: 'myhulkApp',
   username: 'pip',
+  connected: true,
   interval: 2000
 });
 
@@ -37,5 +38,3 @@ agent.on('agent/message', handler);
 function handler (payload) {
   console.log(payload)
 }
-
-setTimeout(() => agent.disconnect(), 10000);

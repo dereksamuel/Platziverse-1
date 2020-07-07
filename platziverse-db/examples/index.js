@@ -8,11 +8,11 @@ async function run () {
   const { Agent, Metric } = await db(config).catch(handleFatalError);
 
   const agent = await Agent.createOrUpdate({
-    uuid: 'mm-xx-vv-nn',
-    name: 'Derek',
-    username: 'Pepe',
+    uuid: 'yyy-tt-zz',
+    name: 'Milena',
+    username: 'desadaal',
     hostname: 'host',
-    pid: 1,
+    pid: process.pid,
     connected: true
   }).catch(handleFatalError);
 

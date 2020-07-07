@@ -6,7 +6,11 @@ exports.config = {
   password: process.env.DB_PASS || 'platzi',
   host: process.env.DB_HOST || 'localhost',
   dialect: 'postgres',
-  logging: () => {}
+  logging: () => {},
+  auth: {
+    secret: process.env.SECRET || 'secreto',
+    algorithms: ['HS256']
+  }
 };
 
 exports.transform = function parsePayload (payload) {
@@ -24,5 +28,22 @@ exports.transform = function parsePayload (payload) {
 };
 
 exports.Api = {
-  port: process.env.PORT || 3000
+  port: process.env.PORT || 5500,
+  endpoint: process.env.ENDPOINT || 'http://localhost:5500',
+  apiToken: process.env.TOKEN || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBpcGFwbHV0YXJjbyIsIm5hbWUiOiJEZXJlayIsImFkbWluIjp0cnVlLCJwZXJtaXNzaW9ucyI6WyJtZXRyaWNzOnJlYWQiXSwiaWF0IjoxNTk0MDgzMTcyfQ.YjCVkO9gs8dSam1Riw6RCUc2_8kgc67kjwTQSQcWQjk',
+  portWeb: process.env.PORTWEB || 5009,
+  res_error: (err, req, res, message, chalk, status, weight) => {
+    if (req && res) {
+        res
+        .status(status)
+        .send(message);
+      console.group(chalk.red(weight));
+        console.error(chalk.bgRed('[error-message]: '), err.message);
+        console.error(chalk.bgRed('[error-stack]: '), err.stack);
+      console.group(chalk.red(weight));
+    }
+    if (weight === 'FATAL ERROR') {
+      process.exit(1);
+    }
+  }
 }
