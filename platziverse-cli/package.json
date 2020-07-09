@@ -1,0 +1,19 @@
+{
+  "name": "platziverse-cli",
+  "version": "1.0.0",
+  "description": "A simple IOT platform - CLI",
+  "bin": "platziverse.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Derek",
+  "license": "MIT",
+  "dependencies": {
+    "args": "^5.0.1",
+    "blessed": "^0.1.81",
+    "blessed-contrib": "^4.8.20",
+    "minimist": "^1.2.5",
+    "moment": "^2.27.0",
+    "platziverse-agent": "file:../platziverse-agent"
+  }
+}

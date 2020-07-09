@@ -1,20 +1,26 @@
 <template>
   <div style="font-family: 'Cabin', sans-serif;">
-    <layout></layout>
-    <agent uuid="d33aeb8e-0420-46c3-9b23-8faee4cb90b0" :socket="socket"></agent>
-    <agent
-      v-for="agent in agents"
-      :uuid="agent.uuid"
-      :key="agent.uuid"
-    ></agent>
-    <metric uuid="d33aeb8e-0420-46c3-9b23-8faee4cb90b0" type="rss" :socket="socket"></metric>
+    <layout :statusSession="statusSession"></layout>
+    <div v-if="statusSession">
+      <agent
+        v-for="agent in agents"
+        :uuid="agent.uuid"
+        :key="agent.uuid"
+        :socket="socket"
+      ></agent>
+    </div>
+    <div v-if="!statusSession">
+      <home class="centered-Home"></home>
+    </div>
     <p v-if="error">{{error}}</p>
   </div>
 </template>
 
 <script>
+const request = require('request-promise-native');
 const io = require('socket.io-client');
 const Layout = require('./components/Layout.vue');
+const Home = require('./components/Home.vue');
 const Agent = require('./Agent.vue');
 const Metric = require('./Metric.vue');
 
@@ -25,13 +31,15 @@ module.exports = {
   components: {
     Layout,
     Agent,
-    Metric
+    Metric,
+    Home
   },
   data() {
     return {
       agents: [],
       error: null,
-      socket
+      socket,
+      statusSession: false
     }
   },
   mounted () {
@@ -39,8 +47,36 @@ module.exports = {
   },
 
   methods: {
-    initialize () {
+    async initialize () {
+      const options = {
+        method: 'GET',
+        url: 'http://localhost:5009/agents',
+        json: true
+      };
+
+      let result;
+      try {
+        result = await request(options);
+      } catch (err) {
+        this.error = err.message;
+        return;
+      };
+
+      this.agents = result;
+
+      socket.on('agent/connected', payload => {
+        const { uuid } = payload.agent;
+        const existing = this.agents.find(a => a.uuid === uuid);
+        if (!existing) {
+          this.agents.push(payload.agent);
+        };
+      });
     }
   }
 }
 </script>
+<style scoped>
+.centered-Home {
+  justify-content: center;
+}
+</style>

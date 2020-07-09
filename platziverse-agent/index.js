@@ -6,7 +6,7 @@ const util = require('util');
 const mqtt = require('mqtt');
 const defaults = require('defaults');
 const uuid = require('uuid');
-const EventEmiter = require('events');
+const EventEmiter = require('events');// es event emiter en esta evaluación
 
 const { transform } = require('../platziverse-utils/config');
 
@@ -46,7 +46,6 @@ class PlatziverseAgent extends EventEmiter {
 
 
       this.client.on('connect', () => {
-        console.log('OK');
         this.agentId = uuid.v4(); // un uuid único creado
         this.emit('connected', this.agentId);
         this.timer = setInterval(async () => {
@@ -85,10 +84,8 @@ class PlatziverseAgent extends EventEmiter {
 
         switch (topic) {
           case 'agent/connected':
-            
             break;
           case 'agent/disconnected':
-            
             break;
           case 'agent/message':
             broadcast = payload && payload.agent && payload.agent.uuid !== this.agentId;

@@ -3,9 +3,8 @@
 const PlatziverseAgent = require('../');
 
 const agent = new PlatziverseAgent({
-  name: 'myhulkApp',
-  username: 'pip',
-  connected: true,
+  name: 'exampleAgent',
+  username: 'pepe',
   interval: 2000
 });
 

@@ -1,6 +1,7 @@
 'use strict';
 
 //TODO: https://pandao.github.io/editor.md/en.html
+if (process.env.NODE_ENV !== 'production') require('longjohn');
 const setupDatabase = require('./lib/db');
 const SETUPAgentModel = require('./models/agent');
 const SETUPMetricModel = require('./models/metric');
