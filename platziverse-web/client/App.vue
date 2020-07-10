@@ -23,8 +23,10 @@ const Layout = require('./components/Layout.vue');
 const Home = require('./components/Home.vue');
 const Agent = require('./Agent.vue');
 const Metric = require('./Metric.vue');
+const { Api } = require('../../platziverse-utils/config');
 
 const socket = io();
+const { serverHost } = Api;
 
 module.exports = {
   name: 'App',
@@ -50,7 +52,7 @@ module.exports = {
     async initialize () {
       const options = {
         method: 'GET',
-        url: 'http://localhost:5009/agents',
+        url: `${serverHost}/agents`,
         json: true
       };
 

@@ -52,6 +52,7 @@ exports.Api = {
     admin_api_key_token: ''
   },
   endpoint: process.env.ENDPOINT || 'http://localhost:5500',
+  serverHost: 'http://localhost:5009',
   apiToken: process.env.TOKEN || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBpcGFwbHV0YXJjbyIsIm5hbWUiOiJEZXJlayIsImFkbWluIjp0cnVlLCJwZXJtaXNzaW9ucyI6WyJtZXRyaWNzOnJlYWQiXSwiaWF0IjoxNTk0MDgzMTcyfQ.YjCVkO9gs8dSam1Riw6RCUc2_8kgc67kjwTQSQcWQjk',
   portWeb: process.env.PORTWEB || 5009,
   res_error: (err, req, res, message, chalk, status, weight) => {
@@ -108,6 +109,8 @@ var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert("#agent_i
 const Metrics = require('./Metric.vue');
 const request = require('request-promise-native');
 
+const { serverHost } = require('../../platziverse-utils/config').Api;
+
 module.exports = {
   props: [ 'uuid', 'socket' ],
   name: 'Agent',
@@ -134,7 +137,7 @@ module.exports = {
 
       const options = {
         method: 'GET',
-        url: `http://localhost:5009/agent/${uuid}`,
+        url: `${serverHost}/agent/${uuid}`,
         json: true
       };
 
@@ -158,7 +161,7 @@ module.exports = {
 
       const options = {
         methods: 'GET',
-        url: `http://localhost:5009/metrics/${uuid}`,
+        url: `${serverHost}/metrics/${uuid}`,
         json: true
       };
 
@@ -208,7 +211,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-2b91befc", __vue__options__)
   }
 })()}
-},{"./Metric.vue":4,"request-promise-native":374,"vue":489,"vue-hot-reload-api":487,"vueify/lib/insert-css":491}],3:[function(require,module,exports){
+},{"../../platziverse-utils/config":1,"./Metric.vue":4,"request-promise-native":374,"vue":489,"vue-hot-reload-api":487,"vueify/lib/insert-css":491}],3:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".centered-Home[data-v-979f0244] {\n  justify-content: center;\n}")
 ;(function(){
 //
@@ -236,8 +239,10 @@ const Layout = require('./components/Layout.vue');
 const Home = require('./components/Home.vue');
 const Agent = require('./Agent.vue');
 const Metric = require('./Metric.vue');
+const { Api } = require('../../platziverse-utils/config');
 
 const socket = io();
+const { serverHost } = Api;
 
 module.exports = {
   name: 'App',
@@ -263,7 +268,7 @@ module.exports = {
     async initialize () {
       const options = {
         method: 'GET',
-        url: 'http://localhost:5009/agents',
+        url: `${serverHost}/agents`,
         json: true
       };
 
@@ -306,7 +311,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-979f0244", __vue__options__)
   }
 })()}
-},{"./Agent.vue":2,"./Metric.vue":4,"./components/Home.vue":6,"./components/Layout.vue":7,"request-promise-native":374,"socket.io-client":404,"vue":489,"vue-hot-reload-api":487,"vueify/lib/insert-css":491}],4:[function(require,module,exports){
+},{"../../platziverse-utils/config":1,"./Agent.vue":2,"./Metric.vue":4,"./components/Home.vue":6,"./components/Layout.vue":7,"request-promise-native":374,"socket.io-client":404,"vue":489,"vue-hot-reload-api":487,"vueify/lib/insert-css":491}],4:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".metric {\n  border: 1px solid white;\n  margin: 0 auto;\n}\n.metric-type {\n  font-size: 28px;\n  font-weight: normal;\n  font-family: 'Roboto', sans-serif;\n}\ncanvas {\n  margin: 0 auto;\n}")
 ;(function(){
 //
@@ -342,7 +347,9 @@ const { Api } = require('../../platziverse-utils/config');
 const request = require('request-promise-native');
 const moment = require('moment');
 const randomColor = require('random-material-color');
-const LineChart = require('./line-chart')
+const LineChart = require('./line-chart');
+
+const { serverHost } = Api;
 
 module.exports = {
   name: 'Metric',
@@ -371,7 +378,7 @@ module.exports = {
       this.color = randomColor.getColor();
       const options = {
         method: 'GET',
-        url: `http://localhost:5009/metrics/${uuid}/${type}`,
+        url: `${serverHost}/metrics/${uuid}/${type}`,
         json: true
       }
 

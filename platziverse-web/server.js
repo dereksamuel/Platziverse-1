@@ -13,9 +13,13 @@ const proxy = require('./proxy');
 const server = http.createServer(app);
 const { Api } = require('../platziverse-utils/config');
 const ErrorHandler = require('../platziverse-utils/middlewares/error');
-const { portWeb } = Api;
+const { portWeb, mqttHost } = Api;
 const io = socketio(server);
-const agent = new PlatziverseAgent();
+const agent = new PlatziverseAgent({
+  mqtt: {
+    host: mqttHost
+  }
+});
 
 app.use(express.json());
 app.use(ErrorHandler);

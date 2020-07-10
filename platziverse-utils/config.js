@@ -49,6 +49,8 @@ exports.Api = {
     admin_api_key_token: ''
   },
   endpoint: process.env.ENDPOINT || 'http://localhost:5500',
+  serverHost: 'http://localhost:5009',
+  mqttHost: 'mqtt://localhost:8010',
   apiToken: process.env.TOKEN || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBpcGFwbHV0YXJjbyIsIm5hbWUiOiJEZXJlayIsImFkbWluIjp0cnVlLCJwZXJtaXNzaW9ucyI6WyJtZXRyaWNzOnJlYWQiXSwiaWF0IjoxNTk0MDgzMTcyfQ.YjCVkO9gs8dSam1Riw6RCUc2_8kgc67kjwTQSQcWQjk',
   portWeb: process.env.PORTWEB || 5009,
   res_error: (err, req, res, message, chalk, status, weight) => {

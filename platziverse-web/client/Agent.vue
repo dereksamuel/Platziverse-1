@@ -33,6 +33,8 @@
 const Metrics = require('./Metric.vue');
 const request = require('request-promise-native');
 
+const { serverHost } = require('../../platziverse-utils/config').Api;
+
 module.exports = {
   props: [ 'uuid', 'socket' ],
   name: 'Agent',
@@ -59,7 +61,7 @@ module.exports = {
 
       const options = {
         method: 'GET',
-        url: `http://localhost:5009/agent/${uuid}`,
+        url: `${serverHost}/agent/${uuid}`,
         json: true
       };
 
@@ -83,7 +85,7 @@ module.exports = {
 
       const options = {
         methods: 'GET',
-        url: `http://localhost:5009/metrics/${uuid}`,
+        url: `${serverHost}/metrics/${uuid}`,
         json: true
       };
 

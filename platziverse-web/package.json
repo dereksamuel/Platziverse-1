@@ -7,13 +7,16 @@
     "start": "NODE_ENV=production node server.js",
     "start:dev": "DEBUG=platziverse:* nodemon server.js",
     "prestart": "npm run build",
-    "prestart:dev": "npm run build",
-    "build": "browserify -t babelify -t vueify client/app.js -o public/bundle.js"
+    "prestart:dev": "npm run build-dev",
+    "build": "NODE_ENV=production browserify -t babelify -t vueify client/app.js -o public/bundle.js",
+    "build-dev": "browserify -t babelify -t vueify client/app.js -o public/bundle.js"
   },
   "author": "Derek",
   "license": "MIT",
   "devDependencies": {
-    "nodemon": "^2.0.4"
+    "envify": "^4.1.0",
+    "nodemon": "^2.0.4",
+    "uglify-js": "^3.10.0"
   },
   "dependencies": {
     "@babel/core": "^7.10.4",

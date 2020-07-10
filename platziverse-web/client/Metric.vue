@@ -31,7 +31,9 @@ const { Api } = require('../../platziverse-utils/config');
 const request = require('request-promise-native');
 const moment = require('moment');
 const randomColor = require('random-material-color');
-const LineChart = require('./line-chart')
+const LineChart = require('./line-chart');
+
+const { serverHost } = Api;
 
 module.exports = {
   name: 'Metric',
@@ -60,7 +62,7 @@ module.exports = {
       this.color = randomColor.getColor();
       const options = {
         method: 'GET',
-        url: `http://localhost:5009/metrics/${uuid}/${type}`,
+        url: `${serverHost}/metrics/${uuid}/${type}`,
         json: true
       }
 
