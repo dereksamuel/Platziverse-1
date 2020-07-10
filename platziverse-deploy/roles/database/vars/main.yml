@@ -1,0 +1,12 @@
+postgresql_database:
+  - name: platziverse
+    owner: derek
+    hstore: yes
+postgresql_users:
+  - name: derek
+    pass: platzi
+    encrypted: no
+postgresql_user_privileges:
+  - name: derek
+    db: platziverse
+    priv: "ALL"
